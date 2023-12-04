@@ -35,7 +35,8 @@ if (empty($_POST)) {
             header('Location: content.php');
             die();
         }
-    }$_SESSION['auth'] = false;
+    }
+    $_SESSION['auth'] = false;
     header('Location: content.php');
     die();
 }
