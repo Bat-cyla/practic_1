@@ -22,7 +22,6 @@ if (empty($_POST)) {
 
         $sql = "SELECT * FROM users WHERE login='$login' AND password='$password'";
         $stmt = $pdo->query($sql);
-
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!empty($user)) {
