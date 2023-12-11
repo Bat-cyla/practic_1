@@ -12,6 +12,14 @@
     $dsn = "mysql:host=mysql2;dbname=practic_bd;charset=utf8";
     $pdo = new PDO($dsn, $user, $pass);
 
+    function generateSalt(){
+        $salt='';
+        $saltLength=8;
+        for($i=0;$i<$saltLength;$i++){
+            $salt.=chr(mt_rand(33,126));
+        }
+        return $salt;
+    }
 if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['confirm'])) {
     if (strlen($_POST['login'])>=4 and strlen($_POST['login'])<=10) {
         if (strlen($_POST['password']) >= 6 and strlen($_POST['password']) <= 12) {
@@ -22,13 +30,14 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
                     $login = $_POST['login'];
                     $phone_number = $_POST['phone_number'];
                     $mail = $_POST['mail'];
-                    $password = $_POST['password'];
+                    $salt=generateSalt();
+                    $password = md5($salt . $_POST['password']);
 
                     $sql = "SELECT * FROM users WHERE login = '$login'";
                     $stmt = $pdo->query($sql);
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     if (empty($user)) {
-                        $sql = "INSERT INTO users SET login = '$login',phone_number = '$phone_number', mail='$mail', password = '$password'";
+                        $sql = "INSERT INTO users SET login = '$login',phone_number = '$phone_number', mail='$mail', password = '$password', salt='$salt'";
                         $stmt = $pdo->query($sql);
 
                         $id = $pdo->lastInsertId($sql);
