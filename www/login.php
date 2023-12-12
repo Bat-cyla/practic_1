@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (isset($_SESSION['flash'])) {
+    echo $_SESSION['flash'];
+    unset($_SESSION['flash']);
+}
 if (empty($_POST)) {
     ?>
     <form action="" method="POST">
@@ -18,25 +22,36 @@ if (empty($_POST)) {
 
     if (!empty($_POST['login']) and !empty($_POST['password'])) {
         $login = $_POST['login'];
-        $password = md5($_POST['password']);
+        $password = $_POST['password'];
 
-        $sql = "SELECT * FROM users WHERE login='$login' AND password='$password'";
+        $sql = "SELECT * FROM users WHERE login='$login'";
         $stmt = $pdo->query($sql);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!empty($user)) {
-            $_SESSION['auth'] = true;
-            $_SESSION['login']=$login;
-            header('Location: content.php');
-            die();
+            $hash=$user['password'];
+            if(password_verify($password,$hash)){
+                $_SESSION['auth'] = true;
+                $_SESSION['login']=$login;
+                header('Location: content.php');
+                die();
+            }else {
+                $_SESSION['auth'] = false;
+                $_SESSION['flash'] = 'Неверный логин или пароль';
+                header('Location: login.php');
+                die();
+            }
         } else {
             $_SESSION['auth'] = false;
-            header('Location: content.php');
+            $_SESSION['flash'] = 'Неверный логин или пароль';
+            header('Location: login.php');
             die();
         }
+    }else {
+        $_SESSION['auth'] = false;
+        $_SESSION['flash'] = 'Неверный логин или пароль';
+        header('Location: login.php');
+        die();
     }
-    $_SESSION['auth'] = false;
-    header('Location: content.php');
-    die();
 }
 ?>

@@ -8,8 +8,13 @@ if(!empty($_SESSION['auth'])):
 <head>
     <title>Practic_AUTH</title>
 </head>
-<body>
-<p>Добрый день, <?php echo $_SESSION['login'];?></p>
+<form>
+<p>Добрый день, <?php echo $_SESSION['login']; ?></p>
+</form>
+<form action="/users.php" method="GET">
+    <p>Перейти к списку пользователей</p>
+    <p><input type="submit" value="Принять"></p>
+</form>
 </body>
 </html>
 
