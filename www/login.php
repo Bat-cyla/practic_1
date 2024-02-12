@@ -24,7 +24,7 @@ if (empty($_POST)) {
         $login = $_POST['login'];
         $password = $_POST['password'];
 
-        $sql = "SELECT * FROM users WHERE login='$login'";
+        $sql = "SELECT * FROM users WHERE login = '$login'";
         $stmt = $pdo->query($sql);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -33,6 +33,7 @@ if (empty($_POST)) {
             if(password_verify($password,$hash)){
                 $_SESSION['auth'] = true;
                 $_SESSION['login']=$login;
+                $_SESSION['id']=$user['id'];
                 header('Location: content.php');
                 die();
             }else {

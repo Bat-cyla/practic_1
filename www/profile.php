@@ -1,4 +1,5 @@
 <?php
+
 $user = 'root';      // имя пользователя
 $pass = 'root';          // пароль
 $dsn = "mysql:host=mysql2;dbname=practic_bd;charset=utf8";

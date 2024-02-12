@@ -5,16 +5,6 @@ if (isset($_SESSION['flash'])) {
     echo $_SESSION['flash'];
     unset($_SESSION['flash']);
 }
-?>
-<form action="" method="POST">
-    <p><input name="login"> Логин</p>
-    <p><input name="phone_number"> Номер телефона</p>
-    <p><input name="mail">Почта</p>
-    <p><input name="password" type="password">Пароль</p>
-    <p><input type="password" name="confirm">Подтвердить пароль</p>
-    <p> <input type="submit" value="Зарегистрироваться"></p>
-</form>
-<?php
     $user = 'root';      // имя пользователя
     $pass = 'root';          // пароль
     $dsn = "mysql:host=mysql2;dbname=practic_bd;charset=utf8";
@@ -55,8 +45,10 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
 
                                     $id = $pdo->lastInsertId($sql);
 
+                                    $_SESSION['login']=$login;
                                     $_SESSION['id'] = $id;
                                     $_SESSION['auth'] = true;
+                                    //header("Location: content.php?id=$id");
                                 } else {
                                     echo 'Пользователь с таким Логином уже существует';
                                 }
@@ -78,8 +70,16 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
         echo 'Заполните поля регистрации';
     }
 
+?>
 
-
+<form action="" method="POST">
+    <p><input name="login"> Логин</p>
+    <p><input name="phone_number"> Номер телефона</p>
+    <p><input name="mail">Почта</p>
+    <p><input name="password" type="password">Пароль</p>
+    <p><input type="password" name="confirm">Подтвердить пароль</p>
+    <p> <input type="submit" value="Зарегистрироваться"></p>
+</form>
 
 
 
