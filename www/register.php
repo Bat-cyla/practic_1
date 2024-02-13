@@ -48,7 +48,7 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
                                     $_SESSION['login']=$login;
                                     $_SESSION['id'] = $id;
                                     $_SESSION['auth'] = true;
-                                    //header("Location: content.php?id=$id");
+                                    header("Location: content.php?id=$id");
                                 } else {
                                     echo 'Пользователь с таким Логином уже существует';
                                 }
