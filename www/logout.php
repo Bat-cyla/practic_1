@@ -1,7 +1,7 @@
 <?php
 session_start();
 $_SESSION['auth']=null;
-$_SESSION['flash'] = 'User logged out';
-unset($_SESSION['flash']);
-header('Location: index.php');
+$_SESSION['flash']='User Logged out';
+header('Location: main');
 die();
+

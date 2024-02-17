@@ -1,9 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['flash'])) {
-    echo $_SESSION['flash'];
-    unset($_SESSION['flash']);
-}
+
 if (empty($_POST)) {
     header('Location:main.php');
 }else {
@@ -47,4 +44,3 @@ if (empty($_POST)) {
         die();
     }
 }
-?>
