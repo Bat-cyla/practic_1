@@ -5,15 +5,7 @@ if (isset($_SESSION['flash'])) {
     unset($_SESSION['flash']);
 }
 if (empty($_POST)) {
-    ?>
-    <form action="" method="POST">
-
-        <p><input name="login"> Введите логин</p>
-        <p><input name="password" type="password">Введите пароль</p>
-        <p><input type="submit" value="Подтвердить"></p>
-
-    </form>
-    <?php
+    header('Location:main.php');
 }else {
     $user = 'root';      // имя пользователя
     $pass = 'root';          // пароль
@@ -34,24 +26,24 @@ if (empty($_POST)) {
                 $_SESSION['auth'] = true;
                 $_SESSION['login']=$login;
                 $_SESSION['id']=$user['id'];
-                header('Location: content.php');
+                header('Location: view/content_page.php');
                 die();
             }else {
                 $_SESSION['auth'] = false;
                 $_SESSION['flash'] = 'Неверный логин или пароль';
-                header('Location: login.php');
+                header('Location: login_page');
                 die();
             }
         } else {
             $_SESSION['auth'] = false;
             $_SESSION['flash'] = 'Неверный логин или пароль';
-            header('Location: login.php');
+            header('Location: login_page');
             die();
         }
     }else {
         $_SESSION['auth'] = false;
         $_SESSION['flash'] = 'Неверный логин или пароль';
-        header('Location: login.php');
+        header('Location: login_page');
         die();
     }
 }
