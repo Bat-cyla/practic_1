@@ -50,24 +50,35 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
                                     $_SESSION['auth'] = true;
                                     header("Location: view/content_page.php");
                                 } else {
-                                    echo 'Пользователь с таким Логином уже существует';
+                                    $_SESSION['flash']= "Пользователь с таким логином уже существует";
+                                    header("location: register_page");
+                                    die();
                                 }
                             }
                         } else {
-                            echo 'Пароли не совпадают';
+                            $_SESSION['flash']= "Пароли не совпадают";
+                            header("location: register_page");
+                            die();
                         }
                     } else {
-                        echo 'Пароль должен быть от 6 до 12 символов';
+                        $_SESSION['flash']= "Пароль должен быть от 6 до 12 символов";
+                        header("location: register_page");
+                        die();
                     }
                 }else{
                 $_SESSION['flash'] = 'Логин может содержать только латинские буквы и цифры';
+                header("location: register_page");
+                die();
             }
     } else {
-                    echo 'Логин должен быть от 4 до 10 символов';
+        $_SESSION['flash'] = 'Логин должен быть от 4 до 10 символов';
+        header("location: register_page");
+        die();
             }
-
     } else {
-        echo 'Заполните поля регистрации';
+    $_SESSION['flash'] = 'Заполните поля регистрации';
+    header("location: register_page");
+    die();
     }
 
 
