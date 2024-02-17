@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (isset($_SESSION['flash'])) {
+    echo $_SESSION['flash'];
+    unset($_SESSION['flash']);
+}
 $user = 'root';      // имя пользователя
 $pass = 'root';          // пароль
 $dsn = "mysql:host=mysql2;dbname=practic_bd;charset=utf8";
@@ -19,14 +23,19 @@ $pdo = new PDO($dsn, $user, $pass);
             $new_passwordHash=password_hash($new_password,PASSWORD_DEFAULT);
             $sql="UPDATE users SET password= '$new_passwordHash' WHERE id= '$id'";
             $stmt=$pdo->query($sql);
+            $_SESSION['auth'] = true;
+            $_SESSION['login']=$user['login'];
+            $_SESSION['id']=$user['id'];
+            header('Location: view/content_page.php');
+            die();
         }else{
-            echo 'старый пароль введен неправильно';
+            $_SESSION['flash'] = 'Старый пароль введен неправильно';
+            header('Location: changePassword_page');
+            die();
         }
+    }else{
+        $_SESSION['flash'] = 'Пароли не совпадают';
+        header('Location: changePassword_page');
+        die();
     }
-    ?>
-<form action="" method="POST">
-    <input type="password" name="old_password">
-    <input type="password" name="new_password">
-    <input type="password" name="new_password_confirm">
-    <input type="submit" name="submit">
-</form>
+

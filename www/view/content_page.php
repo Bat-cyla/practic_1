@@ -26,7 +26,7 @@ if($_SESSION['auth']===true):
     </form>
     </div>
     <div>
-    <form action="changePassword.php" method="GET">
+    <form action="changePassword_page.php" method="POST">
         <input type="submit" name="login" value="Сменить пароль">
     </form>
     </div>
