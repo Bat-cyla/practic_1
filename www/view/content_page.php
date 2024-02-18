@@ -3,25 +3,14 @@ session_start();
 if($_SESSION['auth']===true):
     ?>
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Content</title>
-    </head>
-    <body>
+
     <div>
     <form>
         <p>Добрый день, <?php echo $_SESSION['login']; ?></p>
     </form>
     </div>
     <div>
-    <form action="users.php" method="GET">
-        <p>Перейти к списку пользователей</p>
-        <p><input type="submit" value="Принять"></p>
-    </form>
-    </div>
-    <div>
-    <form action="account.php" method="GET">
+    <form action="../account.php" method="GET">
         <input type="submit" name="login" value="Перейти на страницу пользователя">
     </form>
     </div>
@@ -40,9 +29,7 @@ if($_SESSION['auth']===true):
         <input type="submit" name="login" value="Удалить аккаунт">
     </form>
         </div>
-    </body>
 
-    </html>
 
 
 

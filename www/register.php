@@ -40,7 +40,7 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
                                 $stmt = $pdo->query($sql);
                                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                                 if (empty($user)) {
-                                    $sql = "INSERT INTO users SET login = '$login',phone_number = '$phone_number', mail='$mail', password = '$password'";
+                                    $sql = "INSERT INTO users SET login = '$login',phone_number = '$phone_number', mail='$mail', password = '$password', status_id=1";
                                     $stmt = $pdo->query($sql);
 
                                     $id = $pdo->lastInsertId($sql);
@@ -48,6 +48,7 @@ if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['co
                                     $_SESSION['login']=$login;
                                     $_SESSION['id'] = $id;
                                     $_SESSION['auth'] = true;
+                                    $_SESSION['status']=
                                     header("Location: view/content_page.php");
                                 } else {
                                     $_SESSION['flash']= "Пользователь с таким логином уже существует";
