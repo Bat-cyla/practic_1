@@ -1,8 +1,7 @@
 <?php
-$user = 'root';      // имя пользователя
-$pass = 'root';          // пароль
-$dsn = "mysql:host=mysql2;dbname=practic_bd;charset=utf8";
-$pdo = new PDO($dsn, $user, $pass);
+$conf=require 'config.php';
+
+$pdo=new PDO($conf['dsn'],$conf['username'],$conf['password']);
 
 $id=$_GET['id'];
 

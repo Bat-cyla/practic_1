@@ -5,10 +5,9 @@ if (isset($_SESSION['flash'])) {
     echo $_SESSION['flash'];
     unset($_SESSION['flash']);
 }
-    $user = 'root';      // имя пользователя
-    $pass = 'root';          // пароль
-    $dsn = "mysql:host=mysql2;dbname=practic_bd;charset=utf8";
-    $pdo = new PDO($dsn, $user, $pass);
+$conf=require 'config.php';
+
+$pdo=new PDO($conf['dsn'],$conf['username'],$conf['password']);
 
     function loginCheck($login){
         $array=['A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i',
