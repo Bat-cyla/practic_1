@@ -22,64 +22,62 @@ $pdo=new PDO($conf['dsn'],$conf['username'],$conf['password']);
         return $result;
     }
 
-if (!empty($_POST['login']) and !empty($_POST['password']) and !empty($_POST['confirm'])) {
-    if (strlen($_POST['login']) >= 4 and strlen($_POST['login']) <= 10) {
-            if(loginCheck($_POST['login'])===true){
-                    if (strlen($_POST['password']) >= 6 and strlen($_POST['password']) <= 12) {
-                        if ($_POST['password'] == $_POST['confirm']) {
-                            if (!empty($_POST['login']) and !empty($_POST['phone_number']) and
-                                !empty($_POST['mail']) and !empty($_POST['password'])) {
-
-                                $login = $_POST['login'];
-                                $phone_number = $_POST['phone_number'];
-                                $mail = $_POST['mail'];
-                                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-                                $sql = "SELECT * FROM users WHERE login = '$login'";
-                                $stmt = $pdo->query($sql);
-                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                if (empty($user)) {
-                                    $sql = "INSERT INTO users SET login = '$login',phone_number = '$phone_number', mail='$mail', password = '$password', status_id=1";
-                                    $stmt = $pdo->query($sql);
-
-                                    $id = $pdo->lastInsertId($sql);
-
-                                    $_SESSION['login']=$login;
-                                    $_SESSION['id'] = $id;
-                                    $_SESSION['auth'] = true;
-                                    $_SESSION['status']=
-                                    header("Location: view/content_page.php");
-                                } else {
-                                    $_SESSION['flash']= "Пользователь с таким логином уже существует";
-                                    header("location: register_page");
-                                    die();
-                                }
-                            }
-                        } else {
-                            $_SESSION['flash']= "Пароли не совпадают";
-                            header("location: register_page");
-                            die();
-                        }
-                    } else {
-                        $_SESSION['flash']= "Пароль должен быть от 6 до 12 символов";
-                        header("location: register_page");
-                        die();
-                    }
-                }else{
-                $_SESSION['flash'] = 'Логин может содержать только латинские буквы и цифры';
-                header("location: register_page");
-                die();
-            }
-    } else {
-        $_SESSION['flash'] = 'Логин должен быть от 4 до 10 символов';
-        header("location: register_page");
-        die();
-            }
-    } else {
+if (empty($_POST['login']) and empty($_POST['password']) and empty($_POST['confirm'])) {
     $_SESSION['flash'] = 'Заполните поля регистрации';
     header("location: register_page");
     die();
-    }
+}
+
+if (strlen($_POST['login']) < 4 OR strlen($_POST['login']) > 10) {
+    $_SESSION['flash'] = 'Логин должен быть от 4 до 10 символов';
+    header("location: register_page");
+    die();
+}
+if(loginCheck($_POST['login'])!==true) {
+    $_SESSION['flash'] = 'Логин может содержать только латинские буквы и цифры';
+    header("location: register_page");
+    die();
+}
+if (strlen($_POST['password']) < 6 OR strlen($_POST['password']) > 12) {
+    $_SESSION['flash']= "Пароль должен быть от 6 до 12 символов";
+    header("location: register_page");
+    die();
+}
+if ($_POST['password'] !== $_POST['confirm']) {
+    $_SESSION['flash']= "Пароли не совпадают";
+    header("location: register_page");
+    die();
+}
+
+$login = $_POST['login'];
+$phone_number = $_POST['phone_number'];
+$mail = $_POST['mail'];
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+$sql = "SELECT * FROM users WHERE login = '$login'";
+$stmt = $pdo->query($sql);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!empty($user)) {
+    $_SESSION['flash']= "Пользователь с таким логином уже существует";
+    header("location: register_page");
+    die();
+}
+
+
+$sql = "INSERT INTO users SET login = '$login',phone_number = '$phone_number', mail='$mail', password = '$password', status_id=1";
+$stmt = $pdo->query($sql);
+
+$id = $pdo->lastInsertId($sql);
+
+$_SESSION['login']=$login;
+$_SESSION['id'] = $id;
+$_SESSION['auth'] = true;
+$_SESSION['status']=null;
+    header("Location: view/content_page.php");
+
+
+
+
 
 
 
